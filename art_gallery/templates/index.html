@@ -1,0 +1,382 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>DBMS Project</title>
+    <style>
+		table, th, td {
+		    border: 2px solid black;
+		    border-collapse: collapse;
+		}
+		th, td {
+		    padding: 5px;
+		    text-align: left;
+		}
+	</style>
+</head>
+<body>
+	<h1>DBMS PROJECT</h1>
+	<ul>
+		<li><a href="/artists">Artists</a></li>
+		<li><a href="/artwork">Artwork</a></li>
+		<li><a href="/customer">Customer</a></li>
+		<li><a href="/groups">Groups</a></li>
+		<!--<li><a href="/belongs_to">Belongs_to</a></li>
+		
+		<li><a href="/likes_artist">Likes_Artist</a></li>
+		<li><a href="/likes_group">Likes_Group</a></li>!-->
+	</ul>
+	<br>
+	<br>
+	<div style="border:5px double #000;width:400px;padding-left:10px;">
+	    <h2>SQL Query Data Form</h2>
+
+		<form id="upload_form" action="{% url 'index' %}" method="post" enctype="multipart/form-data">
+	        {% csrf_token %} 
+	            <div style="width:300px">
+			        <div>
+			            <input type="text" name="sql_query" value="Write SQL Query" ></input>
+			        </div>
+			        <br>
+		        	<button type="submit" class="btn btn-default" style="">Submit</button>
+			    </div>
+	    </form>
+	    <br>
+	    {% if query_sql %}
+    		<table style="width:30%">
+                <tr>
+                	{% for index in list_sql %}
+    			    	<th>{{index}}</th>
+                    {% endfor %}
+    			</tr>
+    			{% for index in query_sql %}
+    				<tr>
+    					{% for tupple_index in index %}
+    						<td style="width:100px">{{tupple_index}}</td>
+    					{% endfor %}
+    				</tr> 
+                {% endfor %}
+    		</table>
+        {% else %}
+            <p>No list to display.</p>
+        {% endif %}
+        <br>
+	    <br>
+    </div>
+    <br>
+	<div style="border:5px double #000;width:400px;padding-left:10px;">
+	    <h2>Query Data Form</h2>
+
+		<form id="upload_form" action="{% url 'index' %}" method="post" enctype="multipart/form-data">
+	        {% csrf_token %} 
+	            <div style="width:300px">
+			        <div>
+			            <input type="text" name="attr1" value="Attr 1" ></input>
+			        </div>
+			        <div>
+			            <input type="text" name="attr2" value="Attr 2" ></input>
+			        </div>
+			        <div>
+			            <input type="text" name="table1" value="Table 1" ></input>
+			        </div>
+			        <div>
+			            <input type="text" name="table2" value="Table 2" ></input>
+			        </div>
+			        <div>
+			            <input type="text" name="table1_par" value="Table 1 paramter"></input>
+			        </div>
+			        <div>
+			            <input type="text" name="opr" value="Operator" ></input>
+			        </div>
+			        <div>
+			            <input type="text" name="table2_par" value="Table 2 parameter"></input>
+			        </div>
+			        <br>
+		        	<button type="submit" class="btn btn-default" style="">Submit</button>
+			    </div>
+	    </form>
+	    <br>
+	    {% if query_index %}
+    		<table style="width:30%">
+                <tr>
+                	{% for index in list_attr %}
+    			    	<th>{{index}}</th>
+                    {% endfor %}
+    			</tr>
+    			{% for index in query_index %}
+    				<tr>
+    					{% for tupple_index in index %}
+    						<td style="width:100px">{{tupple_index}}</td>
+    					{% endfor %}
+    				</tr> 
+                {% endfor %}
+    		</table>
+        {% else %}
+            <p>No list to display.</p>
+        {% endif %}
+        <br>
+	    <br>
+    </div>
+    <br>
+    <div style="border:5px double #000;width:400px;padding-left:10px;">
+	    <h2>Query Data Form</h2>
+
+		<form id="query2_form" action="{% url 'index' %}" method="post" enctype="multipart/form-data">
+	        {% csrf_token %} 
+	            <div style="width:300px">
+			        <div>
+			            <input type="text" name="table_name" value="Table name" ></input>
+			        </div>
+			        <div>
+			            <input type="text" name="attr_name" value="Attribute" ></input>
+			        </div>
+			        <div>
+			            <input type="text" name="order" value="Order by" ></input>
+			        </div>
+			        <br>
+		        	<button type="submit" class="btn btn-default" style="">Submit</button>
+			    </div>
+	    </form>
+	    <br>
+	    {% if query2_index %}
+    		<table style="width:30%">
+                <tr>
+                	{% for index in list2_attr %}
+    			    	<th>{{index}}</th>
+                    {% endfor %}
+    			</tr>
+    			{% for index in query2_index %}
+    				<tr>
+    					{% for tupple_index in index %}
+    						<td style="width:100px">{{tupple_index}}</td>
+    					{% endfor %}
+    				</tr> 
+                {% endfor %}
+    		</table>
+        {% else %}
+            <p>No list to display.</p>
+        {% endif %}
+        <br>
+	    <br>
+    </div>
+    <br>
+    <div style="border:5px double #000;width:400px;padding-left:10px;">
+	    <h2>Display the Artists liked by a particular Customer : Query Data Form</h2>
+
+		<form id="query3_form" action="{% url 'index' %}" method="post" enctype="multipart/form-data">
+	        {% csrf_token %} 
+	            <div style="width:300px">
+			        <div>
+			            <input type="text" name="attr_q3_name" value="Enter Customer Name" ></input>
+			        </div>
+			        <br>
+		        	<button type="submit" class="btn btn-default" style="">Submit</button>
+			    </div>
+	    </form>
+	    <br>
+	    {% if query3_index %}
+    		<table style="width:30%">
+                <tr>
+                	<th>Name</th>
+    			    <th>Birthplace</th>
+    			    <th>Age</th>
+    			    <th>Style</th>
+    			</tr>
+    			{% for index in query3_index %}
+    				<tr>
+    					{% for tupple_index in index %}
+    						<td style="width:100px">{{tupple_index}}</td>
+    					{% endfor %}
+    				</tr> 
+                {% endfor %}
+    		</table>
+        {% else %}
+            <p>No list to display.</p>
+        {% endif %}
+        <br>
+	    <br>
+    </div>
+    <br>
+    <div style="border:5px double #000;width:400px;padding-left:10px;">
+	    <h2>Display the Customer liked by a particular Artists : Query Data Form</h2>
+
+		<form id="query4_form" action="{% url 'index' %}" method="post" enctype="multipart/form-data">
+	        {% csrf_token %} 
+	            <div style="width:300px">
+			        <div>
+			            <input type="text" name="attr_q4_name" value="Enter Artists Name" ></input>
+			        </div>
+			        <br>
+		        	<button type="submit" class="btn btn-default" style="">Submit</button>
+			    </div>
+	    </form>
+	    <br>
+	    {% if query4_index %}
+    		<table style="width:30%">
+                <tr>
+                	<th>Cname</th>
+    			    <th>Address</th>
+    			    <th>Amount</th>
+    			</tr>
+    			{% for index in query4_index %}
+    				<tr>
+    					{% for tupple_index in index %}
+    						<td style="width:100px">{{tupple_index}}</td>
+    					{% endfor %}
+    				</tr> 
+                {% endfor %}
+    		</table>
+        {% else %}
+            <p>No list to display.</p>
+        {% endif %}
+        <br>
+	    <br>
+    </div>
+    <br>
+    <div style="border:5px double #000;width:400px;padding-left:10px;">
+	    <h2>Display the Groups liked by a particular Customer : Query Data Form</h2>
+
+		<form id="query5_form" action="{% url 'index' %}" method="post" enctype="multipart/form-data">
+	        {% csrf_token %} 
+	            <div style="width:300px">
+			        <div>
+			            <input type="text" name="attr_q5_name" value="Enter Customer Name" ></input>
+			        </div>
+			        <br>
+		        	<button type="submit" class="btn btn-default" style="">Submit</button>
+			    </div>
+	    </form>
+	    <br>
+	    {% if query5_index %}
+    		<table style="width:30%">
+                <tr>
+                	<th>Gname</th>
+    			</tr>
+    			{% for index in query5_index %}
+    				<tr>
+    					{% for tupple_index in index %}
+    						<td style="width:100px">{{tupple_index}}</td>
+    					{% endfor %}
+    				</tr> 
+                {% endfor %}
+    		</table>
+        {% else %}
+            <p>No list to display.</p>
+        {% endif %}
+        <br>
+	    <br>
+    </div>
+    <br>
+    <div style="border:5px double #000;width:400px;padding-left:10px;">
+	    <h2>Display the Customer liked by a particular Group : Query Data Form</h2>
+
+		<form id="query6_form" action="{% url 'index' %}" method="post" enctype="multipart/form-data">
+	        {% csrf_token %} 
+	            <div style="width:300px">
+			        <div>
+			            <input type="text" name="attr_q6_name" value="Enter Group Name" ></input>
+			        </div>
+			        <br>
+		        	<button type="submit" class="btn btn-default" style="">Submit</button>
+			    </div>
+	    </form>
+	    <br>
+	    {% if query6_index %}
+    		<table style="width:30%">
+                <tr>
+                	<th>Cname</th>
+    			    <th>Address</th>
+    			    <th>Amount</th>
+    			</tr>
+    			{% for index in query6_index %}
+    				<tr>
+    					{% for tupple_index in index %}
+    						<td style="width:100px">{{tupple_index}}</td>
+    					{% endfor %}
+    				</tr> 
+                {% endfor %}
+    		</table>
+        {% else %}
+            <p>No list to display.</p>
+        {% endif %}
+        <br>
+	    <br>
+    </div>
+    <br>
+    <div style="border:5px double #000;width:400px;padding-left:10px;">
+	    <h2>Display the Artworks in a particular Group : Query Data Form</h2>
+
+		<form id="query7_form" action="{% url 'index' %}" method="post" enctype="multipart/form-data">
+	        {% csrf_token %} 
+	            <div style="width:300px">
+			        <div>
+			            <input type="text" name="attr_q7_name" value="Enter Group Name" ></input>
+			        </div>
+			        <br>
+		        	<button type="submit" class="btn btn-default" style="">Submit</button>
+			    </div>
+	    </form>
+	    <br>
+	    {% if query7_index %}
+    		<table style="width:30%">
+                <tr>
+                	<th>Year</th>
+    			    <th>Type</th>
+    			    <th>Title</th>
+    			    <th>Price</th>
+                    <th>Aname</th>
+    			</tr>
+    			{% for index in query7_index %}
+    				<tr>
+    					{% for tupple_index in index %}
+    						<td style="width:100px">{{tupple_index}}</td>
+    					{% endfor %}
+    				</tr> 
+                {% endfor %}
+    		</table>
+        {% else %}
+            <p>No list to display.</p>
+        {% endif %}
+        <br>
+	    <br>
+    </div>
+    <br>
+    <div style="border:5px double #000;width:400px;padding-left:10px;">
+	    <h2>Display the Groups in a particular Artwork : Query Data Form</h2>
+
+		<form id="query8_form" action="{% url 'index' %}" method="post" enctype="multipart/form-data">
+	        {% csrf_token %} 
+	            <div style="width:300px">
+			        <div>
+			            <input type="text" name="attr_q8_name" value="Enter Group Name" ></input>
+			        </div>
+			        <br>
+		        	<button type="submit" class="btn btn-default" style="">Submit</button>
+			    </div>
+	    </form>
+	    <br>
+	    {% if query8_index %}
+    		<table style="width:30%">
+                <tr>
+                	<th>Gname</th>
+    			</tr>
+    			{% for index in query8_index %}
+    				<tr>
+    					{% for tupple_index in index %}
+    						<td style="width:100px">{{tupple_index}}</td>
+    					{% endfor %}
+    				</tr> 
+                {% endfor %}
+    		</table>
+        {% else %}
+            <p>No list to display.</p>
+        {% endif %}
+        <br>
+	    <br>
+    </div>
+</body>
+</html>

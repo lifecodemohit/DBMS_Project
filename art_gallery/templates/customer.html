@@ -1,0 +1,156 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>DBMS Project</title>
+    <style>
+		table, th, td {
+		    border: 2px solid black;
+		    border-collapse: collapse;
+		}
+		th, td {
+		    padding: 5px;
+		    text-align: left;
+		}
+
+	</style>
+</head>
+<body>
+    <div style="border:5px double #000;width:400px;padding-left:10px;">
+    	<h1>Customer Database</h1>
+
+    	{% if list_cust %}
+    		<table style="width:30%">
+                <tr>
+    			    <th>Cname</th>
+    			    <th>Address</th>
+    			    <th>Amount</th>
+    			</tr>
+    			{% for cust in list_cust %}
+    	            <tr>
+    	              	<td style="width:100px">{{cust.cname}}</td>
+    	    			<td style="width:100px">{{cust.address}}</td> 
+    	    			<td style="width:100px">{{cust.amount}}</td>
+    	            </tr>
+                {% endfor %}
+    		</table>
+        {% else %}
+            <p>No list to display.</p>
+        {% endif %}
+        <br>
+    </div>
+
+    <br>
+    <div style="border:5px double #000;width:400px;padding-left:10px;">
+	    <h2>Insert Data Form</h2>
+
+		<form id="upload_form" action="{% url 'customer' %}" method="post" enctype="multipart/form-data">
+	        {% csrf_token %} 
+	            <div style="width:300px">
+			        <div>
+			            <input type="text" name="cname" value="Cname" ></input>
+			        </div>
+                    <div>
+                        <input type="text" name="address" value="Address" ></input>
+                    </div>
+                    <div>
+                        <input type="text" name="amount" value="Amount" ></input>
+                    </div>
+			        
+			        <br>
+		        	<button type="submit" class="btn btn-default" style="">Submit</button>
+			    </div>
+		        
+	    </form>
+	    <br>
+    </div>
+    <br>
+    <div style="border:5px double #000;width:400px;padding-left:10px;">
+        <h2>Delete Data Form</h2>
+    	<form id="delete_form" action="{% url 'customer' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %} 
+                <div style="width:300px">
+    		        <div>
+    		            <input type="text" name="d_cname" value="D_Cname" ></input>
+    		        </div>
+    		        <br>
+    	        	<button type="submit" class="btn btn-default" style="">Submit</button>
+    		    </div>        
+        </form>
+        <br>
+    </div>
+    <br>
+    <div style="border:5px double #000;width:400px;padding-left:10px;">
+        <h2>Update Data Form</h2>
+
+    	<form id="update_form" action="{% url 'customer' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %} 
+                <div style="width:300px">
+    		        <div>
+    		            <input type="text" name="attr" value="Attribute" ></input>
+    		        </div>
+    		        <div>
+    		            <input type="text" name="val" value="Value" ></input>
+    		        </div>
+    		        <div>
+    		            <input type="text" name="u_cname" value="U_Cname" ></input>
+    		        </div>
+    		        <br>
+    	        	<button type="submit" class="btn btn-default" style="">Submit</button>
+    		    </div>        
+        </form>
+        <br>
+    </div>
+    <br>
+    <div style="border:5px double #000;width:400px;padding-left:10px;">
+        <h2>Query Form</h2>
+        <form id="query_form" action="{% url 'customer' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %} 
+                <div style="width:300px">
+    		        <div>
+    		            <input type="text" name="val_addr" value="Address"></input>
+    		        </div>
+    		        <div>
+    		            <input type="text" name="opr1" value="Operator"></input>
+    		        </div>
+    		        <div>
+    		            <input type="text" name="val_lowamount" value="Amount (lower bound)"></input>
+    		        </div>
+    		        <div>
+    		            <input type="text" name="opr2" value="Operator"></input>
+    		        </div>
+    		        <div>
+    		            <input type="text" name="val_highamount" value="Amount (upper bound)"></input>
+    		        </div>
+    		        <br>
+    	        	<button type="submit" class="btn btn-default" style="">Submit</button>
+    		    </div>        
+        </form>
+        <br>
+        {% if query_cust %}
+    		<table style="width:30%">
+                <tr>
+    			   <th>Cname</th>
+                    <th>Address</th>
+                    <th>Amount</th>
+    			</tr>
+    			{% for cust in query_cust %}
+    				<tr>
+    					{% for tupple_art in cust %}
+    						<td style="width:100px">{{tupple_art}}</td>
+    					{% endfor %}
+    				</tr> 
+                {% endfor %}
+    		</table>
+        {% else %}
+            <p>No list to display.</p>
+        {% endif %}
+        <br>
+    </div>
+
+</body>
+</html>

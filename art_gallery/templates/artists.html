@@ -1,0 +1,168 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>DBMS Project</title>
+    <style>
+		table, th, td {
+		    border: 2px solid black;
+		    border-collapse: collapse;
+		}
+		th, td {
+		    padding: 5px;
+		    text-align: left;
+		}
+
+	</style>
+</head>
+<body>
+    <div style="border:5px double #000;width:400px;padding-left:10px;">
+    	<h1>Artists Database</h1>
+
+    	{% if list_artists %}
+    		<table style="width:30%">
+                <tr>
+    			    <th>Name</th>
+    			    <th>Birthplace</th>
+    			    <th>Age</th>
+    			    <th>Style</th>
+    			</tr>
+    			{% for artist in list_artists %}
+    	            <tr>
+    	              	<td style="width:100px">{{artist.name}}</td>
+    	    			<td style="width:100px">{{artist.birthplace}}</td> 
+    	    			<td style="width:100px">{{artist.age}}</td>
+    	    			<td style="width:100px">{{artist.style}}</td>
+    	            </tr>
+                {% endfor %}
+    		</table>
+        {% else %}
+            <p>No list to display.</p>
+        {% endif %}
+        <br>
+    </div>
+
+    <br>
+    <div style="border:5px double #000;width:400px;padding-left:10px;">
+	    <h2>Insert Data Form</h2>
+
+		<form id="upload_form" action="{% url 'artists' %}" method="post" enctype="multipart/form-data">
+	        {% csrf_token %} 
+	            <div style="width:300px">
+			        <div>
+			            <input type="text" name="name" value="Name" ></input>
+			        </div>
+			        <div>
+			            <input type="text" name="birthplace" value="Birthplace"></input>
+			        </div>
+			         <div> 
+			            <input type="text" name="age" value="Age"></input>
+			        </div>
+			        <div>
+			            <input type="text" name="style" value="Style"></input>
+			        </div>
+			        <br>
+		        	<button type="submit" class="btn btn-default" style="">Submit</button>
+			    </div>
+		        
+	    </form>
+	    <br>
+    </div>
+    <br>
+    <div style="border:5px double #000;width:400px;padding-left:10px;">
+        <h2>Delete Data Form</h2>
+
+    	<form id="delete_form" action="{% url 'artists' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %} 
+                <div style="width:300px">
+    		        <div>
+    		            <input type="text" name="d_name" value="Name" ></input>
+    		        </div>
+    		        <br>
+    	        	<button type="submit" class="btn btn-default" style="">Submit</button>
+    		    </div>        
+        </form>
+        <br>
+    </div>
+    <br>
+    <div style="border:5px double #000;width:400px;padding-left:10px;">
+        <h2>Update Data Form</h2>
+
+    	<form id="update_form" action="{% url 'artists' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %} 
+                <div style="width:300px">
+    		        <div>
+    		            <input type="text" name="attr" value="Attribute" ></input>
+    		        </div>
+    		        <div>
+    		            <input type="text" name="val" value="Value" ></input>
+    		        </div>
+    		        <div>
+    		            <input type="text" name="u_name" value="Name" ></input>
+    		        </div>
+    		        <br>
+    	        	<button type="submit" class="btn btn-default" style="">Submit</button>
+    		    </div>        
+        </form>
+        <br>
+    </div>
+    <br>
+    <div style="border:5px double #000;width:400px;padding-left:10px;">
+        <h2>Query Form</h2>
+        <form id="query_form" action="{% url 'artists' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %} 
+                <div style="width:300px">
+    		        <div>
+    		            <input type="text" name="val_birthplace" value="Birthplace"></input>
+    		        </div>
+    		        <div>
+    		            <input type="text" name="opr1" value="Operator"></input>
+    		        </div>
+    		        <div>
+    		            <input type="text" name="val_lowage" value="Age (lower bound)"></input>
+    		        </div>
+    		        <div>
+    		            <input type="text" name="opr2" value="Operator"></input>
+    		        </div>
+    		        <div>
+    		            <input type="text" name="val_highage" value="Age (upper bound)"></input>
+    		        </div>
+    		         <div>
+    		            <input type="text" name="opr3" value="Operator"></input>
+    		        </div>
+    		        <div>
+    		            <input type="text" name="val_style" value="Style"></input>
+    		        </div>
+    		        <br>
+    	        	<button type="submit" class="btn btn-default" style="">Submit</button>
+    		    </div>        
+        </form>
+        <br>
+        {% if query_artists %}
+    		<table style="width:30%">
+                <tr>
+    			    <th>Name</th>
+    			    <th>Birthplace</th>
+    			    <th>Age</th>
+    			    <th>Style</th>
+    			</tr>
+    			{% for artist in query_artists %}
+    				<tr>
+    					{% for tupple_art in artist %}
+    						<td style="width:100px">{{tupple_art}}</td>
+    					{% endfor %}
+    				</tr> 
+                {% endfor %}
+    		</table>
+        {% else %}
+            <p>No list to display.</p>
+        {% endif %}
+        <br>
+    </div>
+
+</body>
+</html>
